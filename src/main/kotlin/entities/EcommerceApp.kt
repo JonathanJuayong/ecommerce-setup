@@ -3,7 +3,7 @@ package entities
 import utils.Utils
 
 class EcommerceApp {
-    val customer = Customer()
+    var customer: Customer? = null
     private val customerManagement = CustomerManagement()
 
     init {
@@ -13,8 +13,8 @@ class EcommerceApp {
             "Invalid answer.",
             {it in listOf("A", "L")}
         )
-        if (ans1 == "A") customerManagement.addCustomer()
-        if (ans1 == "L") customerManagement.getCustomer()
+        if (ans1 == "A") customer = customerManagement.addCustomer()
+        if (ans1 == "L") customer = customerManagement.getCustomer()
     }
 
     private fun askForOptions(): String =
@@ -75,10 +75,18 @@ class EcommerceApp {
             println("Cart is empty")
             return
         }
-        println("Your total amount is PHP ${cart.totalCart()}")
+        var totalBill = cart.totalCart()
+        val currentCustomer = customer
+
+        if (currentCustomer is Member) {
+            val discount = currentCustomer.discountRate
+            println("As a member, you have an additional discount of PHP $discount")
+            totalBill -= discount
+        }
+        println("Your total amount is PHP $totalBill")
         println("Items will be delivered in 7 days. Cash on delivery.")
         println()
-        cart.cartProducts.clear()
+        cart.resetCart()
     }
 
     fun runApp() {

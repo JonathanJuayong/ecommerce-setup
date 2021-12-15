@@ -43,4 +43,10 @@ class Cart(
         }
         return total
     }
+
+    //RESET CART
+    fun resetCart() {
+        total = 0
+        cartProducts.clear()
+    }
 }
