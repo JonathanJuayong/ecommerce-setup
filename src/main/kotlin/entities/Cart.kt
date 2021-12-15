@@ -5,6 +5,7 @@ import interfaces.CartInterface
 class Cart(
     override var productsList: MutableList<Product> = mutableListOf()
 ) : CartInterface {
+    private var total = 0
     //ADD TO CART
     fun addProduct(product: Product) {
         productsList.add(product)
@@ -15,10 +16,8 @@ class Cart(
         productsList.remove(product)
     }
 
-
     //TOTAL CART
     fun totalCart(): Int {
-        var total = 0
         productsList.forEach() {
             total += it.price
         }

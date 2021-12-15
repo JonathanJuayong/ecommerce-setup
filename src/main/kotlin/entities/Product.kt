@@ -7,6 +7,7 @@ data class Product(
     override val price: Int,
     override val productId: Int
 ) : ProductInterface {
+
     override fun getProdName(): String {
         return productName
     }
