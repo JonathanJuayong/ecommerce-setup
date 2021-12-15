@@ -29,9 +29,8 @@
 - User input validation
 - Program loop
 
-
-Cart functionalities:
-Add item
-Display items
-Remove Item
-Clear contents
+### Cart functionalities:
+- Add item
+- Display items
+- Remove Item
+- Clear contents
