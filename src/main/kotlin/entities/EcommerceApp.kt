@@ -3,6 +3,19 @@ package entities
 import utils.Utils
 
 class EcommerceApp {
+    val customer = Customer()
+    private val customerManagement = CustomerManagement()
+
+    init {
+        println("Welcome to App. Choose to do: ")
+        val ans1 = Utils.askForInput(
+            "(A)dd as new Customer or (L)og in as registered Customer? ",
+            "Invalid answer.",
+            {it in listOf("A", "L")}
+        )
+        if (ans1 == "A") customerManagement.addCustomer()
+        if (ans1 == "L") customerManagement.getCustomer()
+    }
 
     private fun askForOptions(): String =
         Utils.askForInput(
@@ -63,7 +76,7 @@ class EcommerceApp {
             return
         }
         println("Your total amount is PHP ${cart.totalCart()}")
-        println("Items will be delivered in 7 days.")
+        println("Items will be delivered in 7 days. Cash on delivery.")
         println()
         cart.cartProducts.clear()
     }
