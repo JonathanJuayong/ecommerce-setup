@@ -24,6 +24,5 @@ class Utils {
 
         private fun validateString(string: String, vararg predicates: (String) -> Boolean): Boolean =
             predicates.all { it(string) }
-
     }
 }
