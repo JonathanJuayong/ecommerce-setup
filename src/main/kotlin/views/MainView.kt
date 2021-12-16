@@ -4,17 +4,16 @@ import entities.Cart
 import entities.Product
 
 class MainView {
-    fun displayMainMenu(productsList: List<Product>, options: List<String>) {
+    fun displayWelcomeMessage() {
         println("Hello! Welcome to the store.")
+    }
+
+    fun displayMainMenu(productsList: List<Product>, options: List<String>) {
         println()
-        formatToTable(productsList)
+        displayProducts(productsList)
         options.forEach {
             println(it)
         }
-    }
-
-    fun displayCart(cart: Cart) {
-        formatToTable(cart.cartProducts)
     }
 
     fun displayCartMenu(options: List<String>) {
@@ -23,16 +22,46 @@ class MainView {
         }
     }
 
-    private fun formatToTable(productsList: List<Product>) {
+    private fun createPlaceholder(vararg string: String): String {
+        var row = "|"
+        string.forEach {
+            val length = it.length
+            row += " %-${length}s |"
+        }
+        return row
+    }
+
+    private fun displayOnPlaceholder(placeholder: String, vararg items: Any) {
+        println(placeholder.format(*items))
+    }
+
+    private fun displayProducts(productsList: List<Product>) {
         // print column headers
+        val headers = arrayOf("ID", "Product Names", "Price")
+        val placeholder = createPlaceholder(*headers)
+
         println("------------------------------")
-        println("| %-2s | %-8s | %6s |".format("ID", "Product Name", "Price"))
+        displayOnPlaceholder(placeholder, *headers)
         println("------------------------------")
 
         // print items
         productsList.forEach {
-            println("| %-2d | %-12s | PHP %2d |".format(it.productId, it.productName, it.price))
+            displayOnPlaceholder(placeholder, it.productId, it.productName, "P ${it.price}")
         }
         println("------------------------------")
+    }
+
+    fun displayCart(cart: Cart) {
+        val headers = arrayOf("ID", "Product Name", "Price", "Qty")
+        val placeholder = createPlaceholder(*headers)
+
+        println("----------------------------------")
+        displayOnPlaceholder(placeholder, *headers)
+        println("----------------------------------")
+
+        cart.getCartItems().forEach { (product, qty) ->
+            displayOnPlaceholder(placeholder, product.productId, product.productName, "P ${product.price}", qty)
+        }
+        println("----------------------------------")
     }
 }

@@ -32,20 +32,31 @@ class MainController {
             { it.toInt() in productsList.map { product -> product.productId } }
         )
 
+    private fun askForProductQty(): String =
+        Utils.askForInput(
+            "Please enter a qty (1-99)",
+            "Invalid amount",
+            { it.toIntOrNull() != null },
+            { it.toInt() in (1..99)}
+        )
+
+    private fun validateBeforeRunning(condition: Boolean, errorMessage: String, function: () -> Unit) {
+        if (condition)
+            function()
+        else
+            println(errorMessage)
+        return
+    }
+
     private fun runAddToCart() {
         val prodID = askForProductId(productsList).toInt()
-        cart.addProduct(prodID)
+        val prodQty = askForProductQty().toInt()
+        cart.addProductId(prodID, prodQty)
         println("Item has been added to your cart.")
     }
 
     private fun runViewCart() {
-        val productsList = cart.cartProducts
-
-        if (productsList.isEmpty()) {
-            println("Cart is empty")
-            return
-        }
-
+        val productsList = cart.getCartItems().map {(product) -> product}
         view.displayCart(cart)
         val cartMenuOptions = listOf(
             "Enter (d) to delete product",
@@ -55,20 +66,14 @@ class MainController {
         when (askForCartOptions()) {
             "d" -> {
                 val id = askForProductId(productsList).toInt()
-                val product = cart.cartProducts.find { it.productId == id }!!
-                cart.removeProduct(product)
-                println("${product.productName} has been successfully removed from cart")
+                cart.removeProduct(id)
+                println("Item has been successfully removed from cart")
             }
             "b" -> return
         }
     }
 
     private fun runCheckout() {
-        if (cart.cartProducts.isEmpty()) {
-            println("Cart is empty")
-            return
-        }
-
         println("Your total amount is PHP ${cart.getTotal()}")
         println("Items will be delivered in 7 days. Cash on delivery.")
         println()
@@ -87,12 +92,23 @@ class MainController {
             "e - exit"
         )
 
+        view.displayWelcomeMessage()
+
         while (true) {
             view.displayMainMenu(productsList, mainMenuOptions)
+            val cartIsNotEmpty = cart.getCartItems().isNotEmpty()
             when (askForOptions()) {
                 "a" -> runAddToCart()
-                "b" -> runViewCart()
-                "c" -> runCheckout()
+                "b" -> validateBeforeRunning(
+                    cartIsNotEmpty,
+                    "Cart is empty",
+                    ::runViewCart
+                )
+                "c" -> validateBeforeRunning(
+                    cartIsNotEmpty,
+                    "Cart is empty",
+                    ::runCheckout
+                )
                 "e" -> {
                     runExit()
                     break
