@@ -3,16 +3,15 @@ package entities
 import interfaces.CartInterface
 import loaders.ProductLoader
 
-class Cart(
+class Cart: CartInterface {
     override var cartProducts: MutableList<Product> = mutableListOf()
-) : CartInterface {
-    val productsList = ProductLoader.products
+    private val productsList = ProductLoader.products
 
     private var total = 0
 
     //ADD TO CART
     fun addProduct(productId: Int) {
-        val product = productsList.find {it.productId == productId}
+        val product = productsList.find { it.productId == productId }
         if (product != null) {
             cartProducts.add(product)
         } else {
