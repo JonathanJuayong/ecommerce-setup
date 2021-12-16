@@ -5,10 +5,13 @@ import entities.customer.Customer
 import entities.customer.Member
 import loaders.ProductLoader
 import utils.Utils
+import views.MainView
 
 class MainController {
-    var customer: Customer? = null
+    private var customer: Customer? = null
+    private val view = MainView()
     private val productsList = ProductLoader.products
+    private val cart = Cart()
 
     private fun askForOptions(): String =
         Utils.askForInput(
@@ -24,44 +27,6 @@ class MainController {
             { it.toIntOrNull() != null },
             { it.toInt() in productsList.map { product -> product.productId } }
         )
-
-    private fun displayProducts(productsList: List<Product>) {
-        println("Here are our products")
-        println("ID | Name | Price ")
-        productsList.forEach {
-            println("${it.productId} | ${it.productName} | PHP ${it.price}")
-        }
-    }
-
-    private fun displayCart(cart: Cart) {
-        val productsList = cart.cartProducts
-
-        if (productsList.isEmpty()) {
-            println("Cart is empty")
-            return
-        }
-
-        cart.cartProducts.forEach {
-            println("${it.productId} - ${it.productName} PHP ${it.price}")
-        }
-        println("Enter (d) to delete product")
-        println("Enter (b) to go back")
-        val userInput = Utils.askForInput(
-            "",
-            "Invalid input",
-            { it in listOf("d", "b") }
-        )
-
-        when (userInput) {
-            "d" -> {
-                val id = askForProductId(productsList).toInt()
-                val product = cart.cartProducts.find { it.productId == id }!!
-                cart.removeProduct(product)
-                println("${product.productName} has been successfully removed from cart")
-            }
-            "b" -> return
-        }
-    }
 
     private fun displayCheckout(cart: Cart) {
         if (cart.cartProducts.isEmpty()) {
@@ -82,29 +47,59 @@ class MainController {
         cart.resetCart()
     }
 
-    fun runApp() {
-        println("Hello welcome to the store!")
+    private fun askForCartOptions(): String =
+        Utils.askForInput(
+            "",
+            "Invalid input",
+            { it in listOf("d", "b") }
+        )
 
-        val cart1 = Cart()
+    private fun runAddToCart() {
+        val prodID = askForProductId(productsList).toInt()
+        cart.addProduct(prodID)
+        println("Item has been added to your cart.")
+    }
+
+    private fun runViewCart() {
+        val productsList = cart.cartProducts
+
+        if (productsList.isEmpty()) {
+            println("Cart is empty")
+            return
+        }
+
+        view.displayCart(cart)
+        val cartMenuOptions = listOf(
+            "Enter (d) to delete product",
+            "Enter (b) to go back"
+        )
+        view.displayCartMenu(cartMenuOptions)
+        when (askForCartOptions()) {
+            "d" -> {
+                val id = askForProductId(productsList).toInt()
+                val product = cart.cartProducts.find { it.productId == id }!!
+                cart.removeProduct(product)
+                println("${product.productName} has been successfully removed from cart")
+            }
+            "b" -> return
+        }
+    }
+
+
+    fun runApp() {
+        val mainMenuOptions = listOf(
+            "a - add product to cart",
+            "b - view cart",
+            "c - checkout",
+            "e - exit"
+        )
 
         while (true) {
-            displayProducts(productsList)
-            println()
-            println("a - add product to cart")
-            println("b - view cart")
-            println("c - checkout")
-            println("e - exit")
-            val userOption = askForOptions()
-            when (userOption) {
-                "a" -> {
-                    val prodID = askForProductId(productsList).toInt()
-                    cart1.addProduct(prodID)
-                    println("Item has been added to your cart.")
-                }
-                "b" -> displayCart(cart1)
-                "c" -> {
-                    displayCheckout(cart1)
-                }
+            view.displayMainMenu(productsList, mainMenuOptions)
+            when (askForOptions()) {
+                "a" -> runAddToCart()
+                "b" -> runViewCart()
+                "c" -> displayCheckout(cart)
                 "e" -> {
                     println("Thank you for shopping!")
                     break
