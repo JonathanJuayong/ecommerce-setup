@@ -1,10 +1,12 @@
 package entities.customer
 
+import interfaces.CustomerInterface
+
 abstract class Customer(
-    var validID: String = "",
-    var firstName: String = "",
-    var lastName: String = "",
-)
+    override var validID: String = "",
+    override var firstName: String = "",
+    override var lastName: String = "",
+): CustomerInterface
 
 
 
