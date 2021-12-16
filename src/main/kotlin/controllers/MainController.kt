@@ -1,17 +1,14 @@
 package controllers
 
 import entities.*
-import entities.customer.Customer
-import entities.customer.Member
 import loaders.ProductLoader
 import utils.Utils
 import views.MainView
 
 class MainController {
-    private var customer: Customer? = null
     private val view = MainView()
-    private val productsList = ProductLoader.products
     private val cart = Cart()
+    private val productsList = ProductLoader.products
 
     private fun askForOptions(): String =
         Utils.askForInput(
@@ -20,38 +17,19 @@ class MainController {
             { it in listOf("a", "b", "c", "e") }
         )
 
+    private fun askForCartOptions(): String =
+        Utils.askForInput(
+            "",
+            "Invalid input",
+            { it in listOf("d", "b") }
+        )
+
     private fun askForProductId(productsList: List<Product>): String =
         Utils.askForInput(
             "Enter product ID",
             "Invalid ID",
             { it.toIntOrNull() != null },
             { it.toInt() in productsList.map { product -> product.productId } }
-        )
-
-    private fun displayCheckout(cart: Cart) {
-        if (cart.cartProducts.isEmpty()) {
-            println("Cart is empty")
-            return
-        }
-        var totalBill = cart.totalCart()
-        val currentCustomer = customer
-
-        if (currentCustomer is Member) {
-            val discount = currentCustomer.discountRate
-            println("As a member, you have an additional discount of PHP $discount")
-            totalBill -= discount
-        }
-        println("Your total amount is PHP $totalBill")
-        println("Items will be delivered in 7 days. Cash on delivery.")
-        println()
-        cart.resetCart()
-    }
-
-    private fun askForCartOptions(): String =
-        Utils.askForInput(
-            "",
-            "Invalid input",
-            { it in listOf("d", "b") }
         )
 
     private fun runAddToCart() {
@@ -85,6 +63,17 @@ class MainController {
         }
     }
 
+    private fun runCheckout() {
+        if (cart.cartProducts.isEmpty()) {
+            println("Cart is empty")
+            return
+        }
+
+        println("Your total amount is PHP ${cart.getTotal()}")
+        println("Items will be delivered in 7 days. Cash on delivery.")
+        println()
+        cart.resetCart()
+    }
 
     fun runApp() {
         val mainMenuOptions = listOf(
@@ -99,7 +88,7 @@ class MainController {
             when (askForOptions()) {
                 "a" -> runAddToCart()
                 "b" -> runViewCart()
-                "c" -> displayCheckout(cart)
+                "c" -> runCheckout()
                 "e" -> {
                     println("Thank you for shopping!")
                     break
