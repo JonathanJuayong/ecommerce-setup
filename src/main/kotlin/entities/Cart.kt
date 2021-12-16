@@ -25,7 +25,7 @@ class Cart: CartInterface {
     }
 
     //TOTAL CART
-    fun totalCart(): Int {
+    fun getTotal(): Int {
         cartProducts.forEach() {
             total += it.price
         }
