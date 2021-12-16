@@ -9,8 +9,9 @@ class MainController {
     private val view = MainView()
     private val cart = Cart()
     private val productsList = ProductLoader.products
+    private val user = UserController()
 
-    private fun askForOptions(): String =
+    private fun askForMainMenuOptions(): String =
         Utils.askForInput(
             "Please select your option",
             "Invalid option",
@@ -97,16 +98,16 @@ class MainController {
         while (true) {
             view.displayMainMenu(productsList, mainMenuOptions)
             val cartIsNotEmpty = cart.getCartItems().isNotEmpty()
-            when (askForOptions()) {
+            when (askForMainMenuOptions()) {
                 "a" -> runAddToCart()
                 "b" -> validateBeforeRunning(
                     cartIsNotEmpty,
-                    "Cart is empty",
+                    "Please add products first",
                     ::runViewCart
                 )
                 "c" -> validateBeforeRunning(
                     cartIsNotEmpty,
-                    "Cart is empty",
+                    "Cannot checkout with empty cart",
                     ::runCheckout
                 )
                 "e" -> {
