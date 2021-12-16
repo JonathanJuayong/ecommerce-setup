@@ -1,9 +1,9 @@
 package entities.user
 
 class Member(
-    validID: String,
-    firstName: String,
-    lastName: String
-) : User(validID, firstName, lastName) {
+    username: String,
+    email: String,
+    address: String
+) : User(username, email, address) {
     val discountRate = 5
 }

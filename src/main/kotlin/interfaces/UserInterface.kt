@@ -1,7 +1,7 @@
 package interfaces
 
 interface UserInterface {
-    var validID: String
-    var firstName: String
-    var lastName: String
+    var username: String
+    var email: String
+    var address: String
 }

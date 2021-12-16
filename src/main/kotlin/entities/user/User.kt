@@ -3,10 +3,11 @@ package entities.user
 import interfaces.UserInterface
 
 abstract class User(
-    override var validID: String = "",
-    override var firstName: String = "",
-    override var lastName: String = "",
-): UserInterface
+    override var username: String,
+    override var email: String,
+    override var address: String
+): UserInterface {
+}
 
 
 

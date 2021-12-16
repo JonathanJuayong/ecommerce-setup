@@ -1,7 +1,7 @@
 package entities.user
 
 class NonMember(
-    validID: String,
-    firstName: String,
-    lastName: String
-) : User(validID, firstName, lastName)
+    username: String,
+    email: String,
+    address: String
+) : User(username, email, address)
