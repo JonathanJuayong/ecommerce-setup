@@ -1,5 +1,5 @@
-import controllers.EcommerceApp
+import controllers.MainController
 
 fun main() {
-    EcommerceApp().runApp()
+    MainController().runApp()
 }
