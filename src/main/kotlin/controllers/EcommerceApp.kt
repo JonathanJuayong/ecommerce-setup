@@ -1,6 +1,8 @@
 package controllers
 
 import entities.*
+import entities.customer.Customer
+import entities.customer.Member
 import loaders.ProductLoader
 import utils.Utils
 

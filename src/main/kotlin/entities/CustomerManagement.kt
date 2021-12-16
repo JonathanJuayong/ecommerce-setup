@@ -1,5 +1,8 @@
 package entities
 
+import entities.customer.Customer
+import entities.customer.Member
+import entities.customer.NonMember
 import utils.Utils
 
 class CustomerManagement {
