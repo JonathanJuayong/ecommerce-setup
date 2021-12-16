@@ -11,10 +11,6 @@ class Cart(
     private var total = 0
 
     //ADD TO CART
-    fun addProduct(product: Product) {
-        cartProducts.add(product)
-    }
-
     fun addProduct(productId: Int) {
         val product = productsList.find {it.productId == productId}
         if (product != null) {
