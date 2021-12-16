@@ -1,21 +1,14 @@
 package entities
 
 import interfaces.CartInterface
+import loaders.ProductLoader
 
 class Cart(
     override var cartProducts: MutableList<Product> = mutableListOf()
 ) : CartInterface {
-    private var productsList = listOf<Product>(
-        Product("Moby", 10, 1),
-        Product("Milo", 10, 2),
-        Product("Cheezy", 10, 3),
-        Product("Nova", 10, 4),
-        Product("Piattos", 10, 5),
-    )
-    private var total = 0
+    val productsList = ProductLoader.products
 
-    fun getProductsList(): List<Product> =
-        productsList
+    private var total = 0
 
     //ADD TO CART
     fun addProduct(product: Product) {
