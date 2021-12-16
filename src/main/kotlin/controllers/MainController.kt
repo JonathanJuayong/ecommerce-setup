@@ -86,14 +86,14 @@ class MainController {
     }
 
     fun runApp() {
+        user.logInOrSignUp()
+
         val mainMenuOptions = listOf(
             "a - add product to cart",
             "b - view cart",
             "c - checkout",
             "e - exit"
         )
-
-        view.displayWelcomeMessage()
 
         while (true) {
             view.displayMainMenu(productsList, mainMenuOptions)
