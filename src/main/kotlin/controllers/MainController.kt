@@ -75,6 +75,10 @@ class MainController {
         cart.resetCart()
     }
 
+    private fun runExit() {
+        println("Thank you for shopping!")
+    }
+
     fun runApp() {
         val mainMenuOptions = listOf(
             "a - add product to cart",
@@ -90,7 +94,7 @@ class MainController {
                 "b" -> runViewCart()
                 "c" -> runCheckout()
                 "e" -> {
-                    println("Thank you for shopping!")
+                    runExit()
                     break
                 }
             }
