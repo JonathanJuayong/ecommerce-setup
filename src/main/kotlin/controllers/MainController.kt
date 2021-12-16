@@ -6,21 +6,9 @@ import entities.customer.Member
 import loaders.ProductLoader
 import utils.Utils
 
-class EcommerceApp {
+class MainController {
     var customer: Customer? = null
-    private val customerManagement = CustomerManagement()
     private val productsList = ProductLoader.products
-
-    init {
-        println("Welcome to App. Choose to do: ")
-        val ans1 = Utils.askForInput(
-            "(A)dd as new Customer or (L)og in as registered Customer? ",
-            "Invalid answer.",
-            {it in listOf("A", "L")}
-        )
-        if (ans1 == "A") customer = customerManagement.addCustomer()
-        if (ans1 == "L") customer = customerManagement.getCustomer()
-    }
 
     private fun askForOptions(): String =
         Utils.askForInput(
