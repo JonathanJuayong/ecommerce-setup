@@ -1,7 +1,5 @@
 package entities.customer
 
-import entities.customer.Customer
-
 class Member(
     validID: String,
     firstName: String,
