@@ -4,6 +4,4 @@ class NonMember(
     validID: String,
     firstName: String,
     lastName: String
-) : Customer(validID, firstName, lastName) {
-
-}
+) : Customer(validID, firstName, lastName)
