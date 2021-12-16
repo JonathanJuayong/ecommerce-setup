@@ -1,9 +1,9 @@
-package entities.customer
+package entities.user
 
 class Member(
     validID: String,
     firstName: String,
     lastName: String
-) : Customer(validID, firstName, lastName) {
+) : User(validID, firstName, lastName) {
     val discountRate = 5
 }

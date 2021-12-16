@@ -1,12 +1,12 @@
-package entities.customer
+package entities.user
 
-import interfaces.CustomerInterface
+import interfaces.UserInterface
 
-abstract class Customer(
+abstract class User(
     override var validID: String = "",
     override var firstName: String = "",
     override var lastName: String = "",
-): CustomerInterface
+): UserInterface
 
 
 

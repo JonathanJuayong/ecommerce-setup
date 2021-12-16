@@ -1,7 +1,7 @@
-package entities.customer
+package entities.user
 
 class NonMember(
     validID: String,
     firstName: String,
     lastName: String
-) : Customer(validID, firstName, lastName)
+) : User(validID, firstName, lastName)

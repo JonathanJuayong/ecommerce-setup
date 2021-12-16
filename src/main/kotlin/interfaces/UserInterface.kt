@@ -1,6 +1,6 @@
 package interfaces
 
-interface CustomerInterface {
+interface UserInterface {
     var validID: String
     var firstName: String
     var lastName: String
