@@ -1,10 +1,13 @@
-package entities
+package controllers
 
+import entities.*
+import loaders.ProductLoader
 import utils.Utils
 
 class EcommerceApp {
     var customer: Customer? = null
     private val customerManagement = CustomerManagement()
+    private val productsList = ProductLoader.products
 
     init {
         println("Welcome to App. Choose to do: ")
@@ -93,10 +96,9 @@ class EcommerceApp {
         println("Hello welcome to the store!")
 
         val cart1 = Cart()
-        val prodList = cart1.getProductsList()
 
         while (true) {
-            displayProducts(prodList)
+            displayProducts(productsList)
             println()
             println("a - add product to cart")
             println("b - view cart")
@@ -105,7 +107,7 @@ class EcommerceApp {
             val userOption = askForOptions()
             when (userOption) {
                 "a" -> {
-                    val prodID = askForProductId(prodList).toInt()
+                    val prodID = askForProductId(productsList).toInt()
                     cart1.addProduct(prodID)
                     println("Item has been added to your cart.")
                 }
