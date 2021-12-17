@@ -8,15 +8,7 @@ class MainView {
         println("Hello! Welcome to the store.")
     }
 
-    fun displayMainMenu(productsList: List<Product>, options: List<String>) {
-        println()
-        displayProducts(productsList)
-        options.forEach {
-            println(it)
-        }
-    }
-
-    fun displayCartMenu(options: List<String>) {
+    fun displayOptions(options: Iterable<String>) {
         options.forEach {
             println(it)
         }
@@ -35,33 +27,30 @@ class MainView {
         println(placeholder.format(*items))
     }
 
-    private fun displayProducts(productsList: List<Product>) {
-        // print column headers
-        val headers = arrayOf("ID", "Product Names", "Price")
-        val placeholder = createPlaceholder(*headers)
-
-        println("------------------------------")
-        displayOnPlaceholder(placeholder, *headers)
-        println("------------------------------")
-
-        // print items
-        productsList.forEach {
-            displayOnPlaceholder(placeholder, it.productId, it.productName, "P ${it.price}")
+    fun displayCheckout(cartTotal: Int, address: String, discount: Int = 0) {
+        if (discount > 0) {
+            println("Member discount applied: PHP $discount")
         }
-        println("------------------------------")
+        println("Your final amount is PHP $cartTotal")
+        println("Items will be delivered to your address at $address in 7 days.")
+        println("Cash on delivery.")
+        println()
     }
 
-    fun displayCart(cart: Cart) {
-        val headers = arrayOf("ID", "Product Name", "Price", "Qty")
-        val placeholder = createPlaceholder(*headers)
+    fun genericDisplayTable(items: List<Product>, forCart: Boolean = false) {
+        val headers = mutableListOf("ID", "Product Name", "Price")
+        if (forCart) headers.add("Qty")
+        val placeholder = createPlaceholder(*headers.toTypedArray())
 
-        println("----------------------------------")
-        displayOnPlaceholder(placeholder, *headers)
-        println("----------------------------------")
+        println("------------------------------")
+        displayOnPlaceholder(placeholder, *headers.toTypedArray())
+        println("------------------------------")
 
-        cart.getCartItems().forEach { (product, qty) ->
-            displayOnPlaceholder(placeholder, product.productId, product.productName, "P ${product.price}", qty)
+         // print items
+        items.forEach {
+            val qty = if (forCart) "${it.qty}" else ""
+            displayOnPlaceholder(placeholder, it.productId, it.productName, "P ${it.price}", qty)
         }
-        println("----------------------------------")
+        println("------------------------------")
     }
 }
