@@ -38,7 +38,7 @@ class MainController {
             "Please enter a qty (1-99)",
             "Invalid amount",
             { it.toIntOrNull() != null },
-            { it.toInt() in (1..99)}
+            { it.toInt() in (1..99) }
         )
 
     private fun validateBeforeRunning(condition: Boolean, errorMessage: String, function: () -> Unit) {
@@ -56,14 +56,14 @@ class MainController {
         println("Item has been added to your cart.")
     }
 
-    private fun runViewCart() {
-        val productsList = cart.getCartItems().map {(product) -> product}
-        view.displayCart(cart)
+    private fun runCartMenu() {
+        val productsList = cart.getCartItems()
+        view.genericDisplayTable(productsList, true)
         val cartMenuOptions = listOf(
             "Enter (d) to delete product",
             "Enter (b) to go back"
         )
-        view.displayCartMenu(cartMenuOptions)
+        view.displayOptions(cartMenuOptions)
         when (askForCartOptions()) {
             "d" -> {
                 val id = askForProductId(productsList).toInt()
@@ -74,10 +74,11 @@ class MainController {
         }
     }
 
-    private fun runCheckout() {
-        println("Your total amount is PHP ${cart.getTotal()}")
-        println("Items will be delivered in 7 days. Cash on delivery.")
-        println()
+    private fun runCheckoutMenu() {
+        val discount = user.getMemberDiscount()
+        val address = user.getUserAddress()
+        val total = cart.getTotal() - discount
+        view.displayCheckout(total, address, discount)
         cart.resetCart()
     }
 
@@ -96,19 +97,20 @@ class MainController {
         )
 
         while (true) {
-            view.displayMainMenu(productsList, mainMenuOptions)
+            view.genericDisplayTable(productsList)
+            view.displayOptions(mainMenuOptions)
             val cartIsNotEmpty = cart.getCartItems().isNotEmpty()
             when (askForMainMenuOptions()) {
                 "a" -> runAddToCart()
                 "b" -> validateBeforeRunning(
                     cartIsNotEmpty,
                     "Please add products first",
-                    ::runViewCart
+                    ::runCartMenu
                 )
                 "c" -> validateBeforeRunning(
                     cartIsNotEmpty,
                     "Cannot checkout with empty cart",
-                    ::runCheckout
+                    ::runCheckoutMenu
                 )
                 "e" -> {
                     runExit()

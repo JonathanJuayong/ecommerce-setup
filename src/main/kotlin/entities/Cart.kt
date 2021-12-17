@@ -2,7 +2,6 @@ package entities
 
 import interfaces.CartInterface
 import loaders.ProductLoader
-
 class Cart : CartInterface {
     private val productsList = ProductLoader.products
     private var total = 0
@@ -17,7 +16,12 @@ class Cart : CartInterface {
     }
 
     fun getCartItems() =
-        cartItems.map { (id, qty) -> Pair(getProductObjectById(id), qty) }
+        cartItems.map { (id, qty) ->
+            val product = getProductObjectById(id)
+            product.qty = qty
+            product
+        }
+
 
     //ADD TO CART
     override fun addProductId(productId: Int, qty: Int) {
@@ -38,8 +42,8 @@ class Cart : CartInterface {
     override fun getTotal(): Int {
         var total = 0
         val itemsWithQty = getCartItems()
-        itemsWithQty.forEach { (product, qty) ->
-            total += product.price * qty
+        itemsWithQty.forEach { product ->
+            total += product.price * product.qty
         }
         return total
     }
@@ -50,3 +54,4 @@ class Cart : CartInterface {
         cartItems.clear()
     }
 }
+
