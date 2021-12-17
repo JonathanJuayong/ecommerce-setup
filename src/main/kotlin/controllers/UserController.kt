@@ -34,7 +34,7 @@ class UserController {
         Utils.askForInput(
             "",
             "Please select either (l) or (s)",
-            {it in listOf("l", "s")}
+            { it in listOf("l", "s") }
         )
 
     private fun logIn() {
@@ -48,22 +48,22 @@ class UserController {
 
     private fun signUp() {
         val (username, email) = askForUsernameAndEmail()
-        user = NonMember(username, email, "")
+        user = NonMember(username, email, null)
     }
 
     private fun getMember(username: String, email: String): Member? =
-        members.find {it.username == username && it.email == email}
+        members.find { it.username == username && it.email == email }
 
-
-    fun setUserAddress() {
-        user?.address = askForAddress()
+    fun getMemberDiscount(): Int {
+        val currentUser = user
+        return if (currentUser is Member)
+            currentUser.discountRate
+        else
+            0
     }
 
     fun getUserAddress() =
-        user?.address
-
-    fun isUserMember(): Boolean =
-        user is Member
+        user?.address ?: askForAddress()
 
     fun logInOrSignUp() {
         while (user == null) {
@@ -74,10 +74,10 @@ class UserController {
             }
         }
         val currentUser = user
-        if (currentUser != null){
+        if (currentUser != null) {
             userView.displayWelcomeMessage(currentUser.username)
         }
-        if (currentUser is Member){
+        if (currentUser is Member) {
             userView.displayMemberMessage(currentUser.discountRate)
         }
     }
