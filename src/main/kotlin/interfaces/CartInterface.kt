@@ -1,7 +1,5 @@
 package interfaces
 
-import entities.Product
-
 interface CartInterface {
     fun addProductId(productId: Int, qty: Int)
     fun removeProduct(productId: Int)

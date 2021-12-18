@@ -50,7 +50,7 @@ class MainController {
 
     private fun runCartMenu() {
         val productsList = cart.getCartItems()
-        view.genericDisplayTable(productsList, true)
+        view.displayItemsTable(productsList, true)
         val cartMenuOptions = listOf(
             "Enter (d) to delete product",
             "Enter (b) to go back"
@@ -89,9 +89,9 @@ class MainController {
         )
 
         while (true) {
-            view.genericDisplayTable(productsList)
-            view.displayOptions(mainMenuOptions)
             val cartIsNotEmpty = cart.getCartItems().isNotEmpty()
+            view.displayItemsTable(productsList)
+            view.displayOptions(mainMenuOptions)
             when (askForMainMenuOptions()) {
                 "a" -> runAddToCart()
                 "b" -> Utils.validateBeforeRunning(

@@ -2,6 +2,7 @@ package entities
 
 import interfaces.CartInterface
 import loaders.ProductLoader
+
 class Cart : CartInterface {
     private val productsList = ProductLoader.products
     private var total = 0
@@ -21,7 +22,6 @@ class Cart : CartInterface {
             product.qty = qty
             product
         }
-
 
     //ADD TO CART
     override fun addProductId(productId: Int, qty: Int) {

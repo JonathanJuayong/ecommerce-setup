@@ -7,5 +7,4 @@ data class Product(
     override val price: Int,
     override val productId: Int,
     var qty: Int = 0
-) : ProductInterface {
-}
+) : ProductInterface

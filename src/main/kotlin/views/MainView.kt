@@ -1,19 +1,8 @@
 package views
 
-import entities.Cart
 import entities.Product
 
 class MainView {
-    fun displayWelcomeMessage() {
-        println("Hello! Welcome to the store.")
-    }
-
-    fun displayOptions(options: Iterable<String>) {
-        options.forEach {
-            println(it)
-        }
-    }
-
     private fun createPlaceholder(vararg string: String): String {
         var row = "|"
         string.forEach {
@@ -27,6 +16,12 @@ class MainView {
         println(placeholder.format(*items))
     }
 
+    fun displayOptions(options: Iterable<String>) {
+        options.forEach {
+            println(it)
+        }
+    }
+
     fun displayCheckout(cartTotal: Int, address: String, discount: Int = 0) {
         if (discount > 0) {
             println("Member discount applied: PHP $discount")
@@ -37,7 +32,7 @@ class MainView {
         println()
     }
 
-    fun genericDisplayTable(items: List<Product>, forCart: Boolean = false) {
+    fun displayItemsTable(items: List<Product>, forCart: Boolean = false) {
         val headers = mutableListOf("ID", "Product Name", "Price")
         if (forCart) headers.add("Qty")
         val placeholder = createPlaceholder(*headers.toTypedArray())
@@ -46,7 +41,7 @@ class MainView {
         displayOnPlaceholder(placeholder, *headers.toTypedArray())
         println("------------------------------")
 
-         // print items
+        // print items
         items.forEach {
             val qty = if (forCart) "${it.qty}" else ""
             displayOnPlaceholder(placeholder, it.productId, it.productName, "P ${it.price}", qty)
