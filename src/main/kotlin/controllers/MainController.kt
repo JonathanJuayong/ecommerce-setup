@@ -41,14 +41,6 @@ class MainController {
             { it.toInt() in (1..99) }
         )
 
-    private fun validateBeforeRunning(condition: Boolean, errorMessage: String, function: () -> Unit) {
-        if (condition)
-            function()
-        else
-            println(errorMessage)
-        return
-    }
-
     private fun runAddToCart() {
         val prodID = askForProductId(productsList).toInt()
         val prodQty = askForProductQty().toInt()
@@ -102,12 +94,12 @@ class MainController {
             val cartIsNotEmpty = cart.getCartItems().isNotEmpty()
             when (askForMainMenuOptions()) {
                 "a" -> runAddToCart()
-                "b" -> validateBeforeRunning(
+                "b" -> Utils.validateBeforeRunning(
                     cartIsNotEmpty,
                     "Please add products first",
                     ::runCartMenu
                 )
-                "c" -> validateBeforeRunning(
+                "c" -> Utils.validateBeforeRunning(
                     cartIsNotEmpty,
                     "Cannot checkout with empty cart",
                     ::runCheckoutMenu

@@ -22,6 +22,14 @@ class Utils {
             }
         }
 
+        fun validateBeforeRunning(condition: Boolean, errorMessage: String, function: () -> Unit) {
+            if (condition)
+                function()
+            else
+                println(errorMessage)
+            return
+        }
+
         private fun validateString(string: String, vararg predicates: (String) -> Boolean): Boolean =
             predicates.all { it(string) }
     }
