@@ -5,12 +5,16 @@ import loaders.ProductLoader
 import utils.Utils
 import views.MainView
 
+/**
+ * The main class that integrates all other controller classes and view classes
+ */
 class MainController {
     private val user = UserController()
     private val cart = CartController()
     private val view = MainView()
     private val productsList = ProductLoader.products
 
+    // helper function to capture and validate user input
     private fun askForMainMenuOptions(): String =
         Utils.askForInput(
             "Please select your option",
@@ -18,6 +22,7 @@ class MainController {
             { it in listOf("a", "b", "c", "e") }
         )
 
+    // helper function to capture and validate user input
     private fun askForCartOptions(): String =
         Utils.askForInput(
             "",
@@ -25,6 +30,7 @@ class MainController {
             { it in listOf("d", "b") }
         )
 
+    // helper function to capture and validate user input
     private fun askForProductId(productsList: List<Product>): String =
         Utils.askForInput(
             "Enter product ID",
@@ -33,6 +39,7 @@ class MainController {
             { it.toInt() in productsList.map { product -> product.productId } }
         )
 
+    // helper function to capture and validate user input
     private fun askForProductQty(): String =
         Utils.askForInput(
             "Please enter a qty (1-99)",
@@ -41,6 +48,10 @@ class MainController {
             { it.toInt() in (1..99) }
         )
 
+    /**
+     * This function adds an item to the cart by asking the user for product id and qty
+     * and adds them to the cart
+     */
     private fun runAddToCart() {
         val prodID = askForProductId(productsList).toInt()
         val prodQty = askForProductQty().toInt()
@@ -48,6 +59,10 @@ class MainController {
         println("Item has been added to your cart.")
     }
 
+    /**
+     * This function displays the options the user can do when viewing the cart and asks
+     * for their input
+     */
     private fun runCartMenu() {
         val productsList = cart.getCartItems()
         view.displayItemsTable(productsList, true)
@@ -66,6 +81,10 @@ class MainController {
         }
     }
 
+    /**
+     * This function asks the user for an address if non-member or will fetch the
+     * user address if member. This also resets the cart
+     */
     private fun runCheckoutMenu() {
         val discount = user.getMemberDiscount()
         val address = user.getUserAddress()
@@ -74,10 +93,16 @@ class MainController {
         cart.resetCart()
     }
 
+    /**
+     * This function prints a message before the program exits.
+     */
     private fun runExit() {
-        println("Thank you for shopping!")
+        view.displayExitMessage()
     }
 
+    /**
+     * This function prints all the products for sale and acts as a main menu for the user
+     */
     fun runApp() {
         user.logInOrSignUp()
 

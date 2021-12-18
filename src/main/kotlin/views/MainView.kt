@@ -48,4 +48,8 @@ class MainView {
         }
         println("------------------------------")
     }
+
+    fun displayExitMessage() {
+        println("Thank you for shopping with us!")
+    }
 }
