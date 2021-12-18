@@ -6,10 +6,10 @@ import utils.Utils
 import views.MainView
 
 class MainController {
-    private val view = MainView()
-    private val cart = Cart()
-    private val productsList = ProductLoader.products
     private val user = UserController()
+    private val cart = CartController()
+    private val view = MainView()
+    private val productsList = ProductLoader.products
 
     private fun askForMainMenuOptions(): String =
         Utils.askForInput(
