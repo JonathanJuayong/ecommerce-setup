@@ -6,7 +6,6 @@ import entities.user.User
 import loaders.MemberLoader
 import utils.Utils
 import views.UserView
-
 class UserController {
     private var user: User? = null
     private var members: List<Member> = mutableListOf<Member>() + MemberLoader.members.toMutableList()
@@ -62,8 +61,15 @@ class UserController {
             0
     }
 
+    private fun setUserAddress(): String {
+        val address = askForAddress()
+        user?.address = address
+        return address
+    }
+
     fun getUserAddress() =
-        user?.address ?: askForAddress()
+        user?.address ?: setUserAddress()
+
 
     fun logInOrSignUp() {
         while (user == null) {
@@ -83,4 +89,5 @@ class UserController {
     }
 
 }
+
 
